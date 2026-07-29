@@ -1,12 +1,16 @@
 import pdfplumber
 
-with pdfplumber.open("C:/Users/manuu/OneDrive/Documentos/Exercicios.pdf.pdf") as pdf:
-    primeira_pagina = pdf.pages[0]
+#para ler uma pagina 
+#with pdfplumber.open(r"C:\Users\sbkst\OneDrive\Documentos\Vendas por Espécie.pdf") as pdf:
+'''primeira_pagina = pdf.pages[0]
     texto = primeira_pagina.extract_text()
-    print(texto)
+    print(texto)'''
+    
 
-linhas = texto.splitlines()
-for linha in linhas:
-    if linha.startswith("B:"):
-        print(linha)
+#para ler todas as paginas
+with pdfplumber.open(r"C:\Users\sbkst\OneDrive\Documentos\Vendas por Espécie.pdf") as pdf:
+    for pagina in pdf.pages:
+        texto = pagina.extract_text()
+        print(texto)
+        #print(pdf.metadata)
 
