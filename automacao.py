@@ -15,10 +15,10 @@ time.sleep(5)
 
 #abrindo o "vendas por especie"
 pyautogui.click(x=524,y=490) #clicar em "relatorios"
-time.sleep(5)
+time.sleep(3)
 pyautogui.click(x=533, y=341) #para clicar em "vendas por especie"
 pyautogui.press("enter")
-time.sleep(5)
+time.sleep(3)
 
 #para extrair o PDF
 
@@ -35,7 +35,7 @@ pyautogui.click(x=793, y=577) #abrindo a opção para pdf
 pyautogui.click(x=690, y=623) #selecionando a opção pdf
 time.sleep(2)
 pyautogui.click(x=852, y=579) #gerando relatorio
-time.sleep(5)
+time.sleep(6)
 pyautogui.press("enter") #clicando em salvar
 
 #abrir o pdf
