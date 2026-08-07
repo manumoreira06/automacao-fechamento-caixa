@@ -2,20 +2,47 @@ import pdfplumber #biblioteca para ler pdf
 import re #biblioteca para identificar padrões de texto
 from collections import defaultdict #biblioteca para criar dicionarios com listas
 
-#para ler uma pagina 
-#with pdfplumber.open(r"C:\Users\sbkst\OneDrive\Documentos\Vendas por Espécie.pdf") as pdf:
-'''primeira_pagina = pdf.pages[0]
-    texto = primeira_pagina.extract_text()
-    print(texto)'''
-    
+venda = []
+total = ""
 
 #para ler todas as paginas
 with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
     for pagina in pdf.pages:
         texto = pagina.extract_text()
         #print(texto)
-        #print(pdf.metadata)
+        linhas = texto.splitlines() #transforma o texto em linhas 
 
-linhas = texto.splitlines()
-for linha in linhas:
-    print(linha)
+#PEGAR A FORMA DE PAGAMENTO 
+
+        for linha in linhas:
+            if linha.startswith("ESPÉCIE"):
+                forma_pagamento = linha.replace("ESPÉCIE:", "").strip()
+                if forma_pagamento == "CREDITO TEF":
+                     forma_pagamento = "CC"
+                if forma_pagamento == "DINHEIRO":
+                    forma_pagamento = "DINHEIRO"
+                if forma_pagamento == "PIX":
+                    forma_pagamento = "PIX"
+
+        #NUMERO DA NOTA - FORMA DE PAGAMENTO
+            if linha.startswith("00"):
+                    partes_venda = linha.split()
+                    #print(partes_venda)
+                    #print(partes_venda[0])
+                    #print(partes_venda[0], "-", forma_pagamento) #tirar esse print pois é desnecessário para o final
+                    #print(partes_venda[-1], "-", forma_pagamento) #Pega o ultimo item da lista (o valor)
+
+        #JUNTAR TODAS AS INFORMAÇÕES EM UMA LISTA 
+                    venda.append({
+                "nota":partes_venda[0],
+                "pagamento": forma_pagamento,
+                "valor": partes_venda[-1]
+            })
+        #PEGAR O TOTAL DA VENDA
+            if linha.startswith("*Os valores"):
+                partes_total = linha.split()
+                total = partes_total[-1]
+
+print(venda)
+print("TOTAL: ", total)
+
