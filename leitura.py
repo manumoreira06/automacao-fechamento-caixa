@@ -45,6 +45,12 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                 partes_total = linha.split()
                 total = partes_total[-1]
 
+        #COMPARAR O NUMERO DA NFCe
+
+
+
 print(venda)
-print("TOTAL: ", total)
+print("TOTAL: R$", total)
+
+
 
