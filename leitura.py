@@ -19,10 +19,12 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                 forma_pagamento = linha.replace("ESPÉCIE:", "").strip()
                 if forma_pagamento == "CREDITO TEF":
                      forma_pagamento = "CC"
-                if forma_pagamento == "DINHEIRO":
-                    forma_pagamento = "DINHEIRO"
-                if forma_pagamento == "PIX":
-                    forma_pagamento = "PIX"
+                if forma_pagamento == "DÉBITO TEF":
+                     forma_pagamento = "CD"
+                if forma_pagamento == "CREDITO":
+                     forma_pagamento = "CC"
+                if forma_pagamento == "DÉBITO":
+                     forma_pagamento = "CD"
 
         #NUMERO DA NOTA - FORMA DE PAGAMENTO
             if linha.startswith("00"):
