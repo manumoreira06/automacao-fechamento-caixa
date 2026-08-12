@@ -4,6 +4,7 @@ from collections import defaultdict #biblioteca para criar dicionarios com lista
 
 venda = []
 total = ""
+venda_nota = {}
 
 #para ler todas as paginas
 with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
@@ -40,17 +41,23 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                 "pagamento": forma_pagamento,
                 "valor": partes_venda[-1]
             })
-        #PEGAR O TOTAL DA VENDA
+
+                if nota in venda_nota:
+                    venda_nota[nota]["pagamento"].append(forma_pagamento)
+                    venda_nota[nota]["valor"].append(partes_venda[-1])
+                else:
+                    venda_nota[nota] = {}
+                    venda_nota[nota]["pagamento"] = []
+                    venda_nota[nota]["valor"] = []
+                    venda_nota[nota]["pagamento"].append(forma_pagamento)
+                    venda_nota[nota]["valor"].append(partes_venda[-1])
+
+            #PEGAR O TOTAL DA VENDA
             if linha.startswith("*Os valores"):
                 partes_total = linha.split()
                 total = partes_total[-1]
 
-        #COMPARAR O NUMERO DA NFCe
 
 
-
-print(venda)
+#print(venda)
 print("TOTAL: R$", total)
-
-
-
