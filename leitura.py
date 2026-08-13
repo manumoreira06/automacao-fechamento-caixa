@@ -16,7 +16,7 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
 #PEGAR A FORMA DE PAGAMENTO 
 
         for linha in linhas:
-            if linha.startswith("ESPÉCIE"):
+             if linha.startswith("ESPÉCIE"):
                 forma_pagamento = linha.replace("ESPÉCIE:", "").strip()
                 if forma_pagamento == "CREDITO TEF":
                      forma_pagamento = "CC"
@@ -51,13 +51,18 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                     venda_nota[nota]["valor"] = []
                     venda_nota[nota]["pagamento"].append(forma_pagamento)
                     venda_nota[nota]["valor"].append(partes_venda[-1])
+                
 
             #PEGAR O TOTAL DA VENDA
             if linha.startswith("*Os valores"):
                 partes_total = linha.split()
                 total = partes_total[-1]
-
+            #dia da nota: 
+            if linha.startswith("Período"):
+                partes_periodo = linha.split()
+                data = partes_periodo[2]
 
 
 #print(venda)
-print("TOTAL: R$", total)
+#print("TOTAL: R$", total)
+#print("*VENDAS ",data "R$ ",total)
