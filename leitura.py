@@ -6,6 +6,7 @@ venda = []
 total = ""
 venda_nota = {}
 
+
 #para ler todas as paginas
 with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
     for pagina in pdf.pages:
@@ -24,45 +25,60 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                      forma_pagamento = "CD"
                 if forma_pagamento == "CREDITO":
                      forma_pagamento = "CC"
+                if forma_pagamento == "CARTAO CREDITO":
+                    forma_pagamento = "CC"
+                if forma_pagamento == "CARTAO DEBITO":
+                    forma_pagamento = "CD"
                 if forma_pagamento == "DÉBITO":
                      forma_pagamento = "CD"
-
-        #NUMERO DA NOTA - FORMA DE PAGAMENTO
-            if linha.startswith("00"):
+                if forma_pagamento == "PRAZO":
+                     forma_pagamento = "ML"
+                                     
+             if linha.startswith("00"):
                     partes_venda = linha.split()
-                    #print(partes_venda)
-                    #print(partes_venda[0])
-                    #print(partes_venda[0], "-", forma_pagamento) #tirar esse print pois é desnecessário para o final
-                    #print(partes_venda[-1], "-", forma_pagamento) #Pega o ultimo item da lista (o valor)
+                    nota = partes_venda[0]
+                    valor = partes_venda[-1]
+                    valor = valor.replace(",", ".")
+                    valor = float(valor)
+    
 
         #JUNTAR TODAS AS INFORMAÇÕES EM UMA LISTA 
                     venda.append({
-                "nota":partes_venda[0],
-                "pagamento": forma_pagamento,
-                "valor": partes_venda[-1]
+                         "nota": nota,
+                         "pagamento": forma_pagamento,
+                         "valor": valor
             })
 
-                if nota in venda_nota:
-                    venda_nota[nota]["pagamento"].append(forma_pagamento)
-                    venda_nota[nota]["valor"].append(partes_venda[-1])
-                else:
-                    venda_nota[nota] = {}
-                    venda_nota[nota]["pagamento"] = []
-                    venda_nota[nota]["valor"] = []
-                    venda_nota[nota]["pagamento"].append(forma_pagamento)
-                    venda_nota[nota]["valor"].append(partes_venda[-1])
-                
+                    if nota in venda_nota:
+                        venda_nota[nota]["pagamento"].append(forma_pagamento)
+                        venda_nota[nota]["valor"].append(valor)
+
+                    else:
+                        venda_nota[nota] = {}
+                        venda_nota[nota]["pagamento"] = []
+                        venda_nota[nota]["valor"] = []
+                        venda_nota[nota]["pagamento"].append(forma_pagamento)
+                        venda_nota[nota]["valor"].append(valor)
+
+        if len(venda_nota[nota]["valor"]) > 1:
+             soma = sum(venda_nota[nota]["valor"])
 
             #PEGAR O TOTAL DA VENDA
-            if linha.startswith("*Os valores"):
+             if linha.startswith("*Os valores"):
                 partes_total = linha.split()
                 total = partes_total[-1]
             #dia da nota: 
-            if linha.startswith("Período"):
+             if linha.startswith("Período"):
                 partes_periodo = linha.split()
                 data = partes_periodo[2]
 
-
+#rint(venda_nota)
 #print(venda)
-#print("TOTAL: R$", total)
-#print("*VENDAS ",data "R$ ",total)
+
+for nota in venda_nota:
+    if len(venda_nota[nota]["valor"]) > 1:
+        soma = sum(venda_nota[nota]["valor"])
+        print(f"R${soma} ({venda_nota[nota]['valor']} {venda_nota[nota]['pagamento']})")
+
+#print("*VENDAS",data ,"R$",total)
+#print("R$", valor, forma_pagamento,)
