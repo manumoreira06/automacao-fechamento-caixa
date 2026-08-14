@@ -60,9 +60,6 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                         venda_nota[nota]["pagamento"].append(forma_pagamento)
                         venda_nota[nota]["valor"].append(valor)
 
-        if len(venda_nota[nota]["valor"]) > 1:
-             soma = sum(venda_nota[nota]["valor"])
-
             #PEGAR O TOTAL DA VENDA
              if linha.startswith("*Os valores"):
                 partes_total = linha.split()
@@ -75,10 +72,18 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
 #rint(venda_nota)
 #print(venda)
 
-for nota in venda_nota:
-    if len(venda_nota[nota]["valor"]) > 1:
-        soma = sum(venda_nota[nota]["valor"])
-        print(f"R${soma} ({venda_nota[nota]['valor']} {venda_nota[nota]['pagamento']})")
+print(f"*VENDAS {data} R${total}")
 
-#print("*VENDAS",data ,"R$",total)
+for nota in venda_nota:
+    valores = venda_nota[nota]["valor"]
+    pagamentos = venda_nota[nota]["pagamento"]
+
+    if len(valores) == 1:
+        print(f"R${valores[0]} {pagamentos[0]}")
+    else:
+        soma = sum(valores)
+        print(f"R${soma}(", end="") 
+        for i in len([venda_nota[nota]["valor"]]):
+            print(f"({valor[i]} {valor[i]})", end="")
+
 #print("R$", valor, forma_pagamento,)
