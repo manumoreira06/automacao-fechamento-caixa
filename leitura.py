@@ -38,6 +38,7 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                     partes_venda = linha.split()
                     nota = partes_venda[0]
                     valor = partes_venda[-1]
+                    valor = valor.replace(".", "")
                     valor = valor.replace(",", ".")
                     valor = float(valor)
     
@@ -79,11 +80,10 @@ for nota in venda_nota:
     pagamentos = venda_nota[nota]["pagamento"]
 
     if len(valores) == 1:
-        print(f"R${valores[0]} {pagamentos[0]}")
+        print(f"R$ {valores[0]} {pagamentos[0]}")
     else:
         soma = sum(valores)
-        print(f"R${soma}(", end="") 
-        for i in len([venda_nota[nota]["valor"]]):
-            print(f"({valor[i]} {valor[i]})", end="")
-
-#print("R$", valor, forma_pagamento,)
+        print(f"R$ {soma}", end="") 
+        for i in range(len(valores)):
+            print(f"({valores[i]} {pagamentos[i]})", end="")
+        print()
