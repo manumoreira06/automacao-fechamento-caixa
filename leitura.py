@@ -1,6 +1,7 @@
 import pdfplumber #biblioteca para ler pdf
 import re #biblioteca para identificar padrões de texto
 from collections import defaultdict #biblioteca para criar dicionarios com listas
+import os 
 
 venda = []
 total = ""
@@ -87,3 +88,7 @@ for nota in venda_nota:
         for i in range(len(valores)):
             print(f"({valores[i]} {pagamentos[i]})", end="")
         print()
+
+if os.path.exists(r"C:\Vendas por Espécie.pdf"):
+    os.remove(r"C:\Vendas por Espécie.pdf")
+

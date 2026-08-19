@@ -35,7 +35,8 @@ pyautogui.click(x=793, y=577) #abrindo a opção para pdf
 pyautogui.click(x=690, y=623) #selecionando a opção pdf
 time.sleep(2)
 pyautogui.click(x=852, y=579) #gerando relatorio
-time.sleep(6)
+time.sleep(6
+)
 pyautogui.press("enter") #clicando em salvar
 
 #abrir o pdf
