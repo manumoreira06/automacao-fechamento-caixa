@@ -1,7 +1,15 @@
+from automacao import abrir_gdoor, extrair_pdf
 import pdfplumber #biblioteca para ler pdf
 import re #biblioteca para identificar padrões de texto
 from collections import defaultdict #biblioteca para criar dicionarios com listas
-import os 
+import os
+import time
+
+abrir_gdoor()
+extrair_pdf()
+
+while not os.path.exists(r"C:\Vendas por Espécie.pdf"):
+    time.sleep(1)
 
 venda = []
 total = ""
@@ -71,10 +79,8 @@ with pdfplumber.open(r"C:\Vendas por Espécie.pdf") as pdf:
                 partes_periodo = linha.split()
                 data = partes_periodo[2]
 
-#rint(venda_nota)
-#print(venda)
 
-print(f"*VENDAS {data} R${total}")
+print(f"*VENDAS {data} R${total}*")
 
 for nota in venda_nota:
     valores = venda_nota[nota]["valor"]
